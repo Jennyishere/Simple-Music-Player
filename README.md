@@ -47,6 +47,7 @@ nuxt2 + vue + vuex + vue-router + axios + vant
 npx create-nuxt-app <项目名>
 
 进行一些选择:
+
   1.在集成的服务器端框架之间进行选择:
     None (Nuxt默认服务器)
     Express
@@ -55,6 +56,7 @@ npx create-nuxt-app <项目名>
     Feathers
     Micro
     Adonis (WIP)
+    
   2.选择您喜欢的UI框架:
     None (无)
     Bootstrap
@@ -63,9 +65,13 @@ npx create-nuxt-app <项目名>
     Tailwind
     Element UI
     Buefy
+    
   3.选择你想要的Nuxt模式 (Universal or SPA)
+  
   4.添加 axios module 以轻松地将HTTP请求发送到您的应用程序中。
+  
   5.添加 EsLint 以在保存时代码规范和错误检查您的代码。
+  
   6.添加 Prettier 以在保存时格式化/美化您的代码。
 
 # 启动本地服务
