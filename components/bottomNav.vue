@@ -32,6 +32,7 @@ export default {};
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
+  background-color: #fff;
   ul {
     display: flex;
     justify-content: space-between;

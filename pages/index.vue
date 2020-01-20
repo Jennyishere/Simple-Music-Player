@@ -51,6 +51,22 @@
         </li>
       </ul>
     </div>
+    <!-- 推荐栏 -->
+    <div class="show">
+      <div class="showhead">
+        <h3>Exclusive Show</h3>
+        <span>
+          More Views
+          <van-icon name="arrow" />
+        </span>
+      </div>
+      <ul>
+        <li v-for="(image, index) in show" :key="index">
+          <img :src="image.picUrl">
+          <span>{{image.name}}</span>
+        </li>
+      </ul>
+    </div>
     <!-- 底部导航栏 -->
     <BottomNav></BottomNav>
   </div>
@@ -68,7 +84,8 @@ export default {
     return {
       // 轮播图数据
       images: [],
-      playList:[]
+      playList:[],
+      show:[]
     };
   },
    mounted() {
@@ -81,11 +98,18 @@ export default {
      
    })
     // 获取分类
-    this.$axios.$get('/top/playlist?limit=10&order=new')
+    this.$axios.$get('/top/playlist?limit=10&order=hot')
     .then(res=> {
-      console.log(res);
+      // console.log(res);
       this.playList=res.playlists;
       console.log(this.playList);
+      
+    })
+    // 获取独家放送
+    this.$axios.$get('/personalized/privatecontent')
+    .then(res=> {
+      console.log(res);
+      this.show = res.result
       
     })
   }
@@ -178,6 +202,23 @@ export default {
       padding: 0 10px;
       background-color: rgba(255, 255, 255, 0.5);
       border-radius: 50px;
+    }
+  }
+}
+.show {
+  padding: 10px;
+    margin-bottom: 60px;
+  .showhead {
+    display: flex;
+    justify-content: space-between;
+    span {
+      font-size: 12px; 
+      color: #666;
+    }
+  }
+  ul {
+    img {
+      width: 100%;
     }
   }
 }
