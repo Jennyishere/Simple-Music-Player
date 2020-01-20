@@ -1,27 +1,23 @@
 <template>
   <div class="bottomNav">
-    <ul>
-      <li class="active">
-        <van-icon name="music" />Find
-      </li>
-      <li>
-        <van-icon name="video" />video
-      </li>
-      <li>
-        <van-icon name="star" />Mymusic
-      </li>
-      <li>
-        <van-icon name="friends" />Mysocial
-      </li>
-      <li>
-        <van-icon name="manager" />Mine
-      </li>
-    </ul>
+    <van-tabbar v-model="active">
+      <van-tabbar-item icon="music" @click="$router.push('/')">Find</van-tabbar-item>
+      <van-tabbar-item icon="video">video</van-tabbar-item>
+      <van-tabbar-item icon="star">Mymusic</van-tabbar-item>
+      <van-tabbar-item icon="friends">Mysocial</van-tabbar-item>
+      <van-tabbar-item icon="manager" @click="$router.push('/user/login')">Mine</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      active: 0
+    };
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -30,30 +26,18 @@ export default {};
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 10px;
   box-sizing: border-box;
   background-color: #fff;
-  ul {
-    display: flex;
-    justify-content: space-between;
-    li {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .van-icon {
-        font-size: 30px;
-        color: #333;
-      }
-      font-size: 12px;
-      color: #333;
-      &.active {
-        color: #a3323d;
-        .van-icon {
-        color: #a3323d;
-
-        }
-      }
+  .van-tabbar {
+      padding: 5px 0;
+  }
+  .van-tabbar-item {
+      /deep/.van-tabbar-item__icon {
+      font-size: 26px;
     }
+  }
+  .van-tabbar-item--active {
+      color: #a3323d;
   }
 }
 </style>
