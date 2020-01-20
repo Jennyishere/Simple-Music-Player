@@ -10,7 +10,7 @@
     <div class="banner">
       <van-swipe :autoplay="3000" indicator-color="#ccc">
         <van-swipe-item v-for="(image, index) in images" :key="index">
-          <img v-lazy="image" />
+          <img v-lazy="image.pic" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -46,7 +46,7 @@
       </div>
       <ul>
         <li v-for="(image, index) in images" :key="index">
-          <img v-lazy="image" />
+          <img v-lazy="image.pic" />
           <span>rock</span>
         </li>
       </ul>
@@ -57,7 +57,8 @@
 </template>
 
 <script>
-import BottomNav from '../components/bottomNav'
+import BottomNav from '@/components/bottomNav'
+import {Banner} from '@/apis/music'
 export default {
   // 注册
   components: {
@@ -67,10 +68,20 @@ export default {
     return {
       // 轮播图数据
       images: [
-        "https://img.yzcdn.cn/vant/apple-1.jpg",
-        "https://img.yzcdn.cn/vant/apple-2.jpg"
+       
       ]
     };
+  },
+  // 获取banner的图片
+   mounted() {
+   this.$axios.$get('/banner?type=2')
+   .then(res=> {
+     console.log(res);
+     this.images = res.banners
+    //  console.log(this.images);
+     
+   })
+    
   }
 };
 </script>
@@ -99,7 +110,10 @@ export default {
 .banner {
   padding: 0 10px;
   img {
-    height: 100px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 10px;
+    height: 150px;
     box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.3);
   }
 }
