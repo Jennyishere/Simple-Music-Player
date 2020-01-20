@@ -45,9 +45,9 @@
         </span>
       </div>
       <ul>
-        <li v-for="(image, index) in images" :key="index">
-          <img v-lazy="image.pic" />
-          <span>rock</span>
+        <li v-for="(image, index) in playList" :key="index">
+          <img v-lazy="image.coverImgUrl" />
+          <span>{{image.tags?image.tags[0]:'音乐'}}</span>
         </li>
       </ul>
     </div>
@@ -67,21 +67,27 @@ export default {
   data() {
     return {
       // 轮播图数据
-      images: [
-       
-      ]
+      images: [],
+      playList:[]
     };
   },
-  // 获取banner的图片
    mounted() {
+  // 获取banner的图片
    this.$axios.$get('/banner?type=2')
    .then(res=> {
-     console.log(res);
+    //  console.log(res);
      this.images = res.banners
     //  console.log(this.images);
      
    })
-    
+    // 获取分类
+    this.$axios.$get('/top/playlist?limit=10&order=new')
+    .then(res=> {
+      console.log(res);
+      this.playList=res.playlists;
+      console.log(this.playList);
+      
+    })
   }
 };
 </script>
@@ -153,16 +159,17 @@ export default {
     }
   }
   img {
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid #000;
+    width: 100px;
+    border-radius: 8px;
   }
   ul {
     display: flex;
+    overflow: auto;
     li {
       width: 35%;
       margin-right: 10px;
       position: relative;
+      // border: 1px solid #000;
     }
     span {
       position: absolute;
