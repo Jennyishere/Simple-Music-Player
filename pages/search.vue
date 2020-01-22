@@ -1,7 +1,8 @@
 <template>
   <div class="search">
     <div class="head">
-      <van-field v-model="value1" left-icon="search" placeholder="big Jet Plane" />
+      <van-field v-model="searchWord" left-icon="search" :placeholder="placeholder" />
+
       <span @click="$router.push('/')">取消</span>
       <van-icon name="manager-o" />
     </div>
@@ -14,35 +15,18 @@
         <span>我们的歌</span>
       </div>
     </div>
+
     <div class="hotSearch">
       <h4>热搜榜</h4>
       <ul>
-        <li>
-          <span>1</span>
+        <li v-for="(item,index) in hotSearch" :key="index">
+          <span>{{index+1}}</span>
           <div class="hot">
             <p>
-              numb
-              <span></span>
+              {{item.searchWord}}
+              <img :src="item.iconUrl" />
             </p>
-            <em>前奏好燃啊啊啊啊啊啊啊啊啊啊啊啊</em>
-          </div>
-        </li>
-        <li>
-          <span>2</span>
-          <div class="hot">
-            <p>
-              这个年纪
-              <span></span>
-            </p>
-          </div>
-        </li>
-        <li>
-          <span>3</span>
-          <div class="hot">
-            <p>
-              这个年纪hahah
-              <span></span>
-            </p>
+            <em>{{item.content}}</em>
           </div>
         </li>
       </ul>
@@ -55,23 +39,52 @@
 <script>
 import BottomNav from "@/components/bottomNav";
 
-export default {};
+export default {
+  data() {
+    return {
+      searchWord: "",
+      placeholder: "hahahhah",
+      hotSearch: [],
+      historyList:[]
+    };
+  },
+  mounted() {
+    // 获取热搜榜
+    this.$axios.$get("/search/hot/detail").then(res => {
+      // console.log(res);
+      this.hotSearch = res.data;
+    });
+
+// 把本地的搜索历史读出来
+    this.historyList= JSON.parse(localStorage.getItem('history')||'[]')
+
+    // 获取默认搜索词
+    this.$axios.$get('/search/default')
+    .then(res=>{
+      console.log(res);
+      this.placeholder = res.data.showKeyword
+    })
+  }
+};
 </script>
 
 <style lang="less" scoped>
 .search {
   padding: 10px;
   // background-color: #2e2e2e;
-  // color: #fff;
+  color: #3e3e3e;
 }
 .head {
   display: flex;
   line-height: 44px;
   /deep/.van-cell {
     border-radius: 50px;
-    background-color: #2e2e2e;
+    background-color: #3b3b3b;
   }
   /deep/.van-icon-search {
+    color: #fff;
+  }
+  /deep/.van-field__control {
     color: #fff;
   }
   span {
@@ -102,8 +115,8 @@ export default {};
     span {
       padding: 5px 10px;
       border-radius: 20px;
-      background-color: #2e2e2e;
-      color: #838485;
+      background-color: #3b3b3b;
+      color: #fff;
     }
   }
 }
@@ -123,11 +136,15 @@ export default {};
       .hot {
         em {
           display: block;
-           width:120/360*100vw;
+          width: 120/360 * 100vw;
           font-size: 12px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          color:#909090;
+        }
+        img {
+          width: 20%;
         }
       }
     }
