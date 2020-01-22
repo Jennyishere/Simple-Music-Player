@@ -1,7 +1,12 @@
 <template>
   <div class="ranking">
     <div class="head">
-      <van-nav-bar title="Ranking List" left-arrow @click-left="$router.back()" @click-right="$router.push('/musicPlay')">
+      <van-nav-bar
+        title="Ranking List"
+        left-arrow
+        @click-left="$router.back()"
+        @click-right="$router.push('/musicPlay')"
+      >
         <van-icon name="bar-chart-o" slot="right" />
       </van-nav-bar>
     </div>
@@ -10,29 +15,37 @@
         <div class="img">
           <img :src="item.coverImgUrl" alt />
         </div>
-        <ul class="list" >
-          <li v-for="(song, index) in item.tracks" :key="index">{{song.first}} <span>{{song.second}}</span></li>
+        <ul class="list">
+          <li v-for="(song, index) in item.tracks" :key="index">
+            {{song.first}}
+            <span>{{song.second}}</span>
+          </li>
         </ul>
       </li>
     </ul>
+    <BottomNav/>
   </div>
 </template>
 
 <script>
+import BottomNav from "@/components/bottomNav";
+
 export default {
-    data() {
-        return {
-            rankList:[]
-        }
-    },
-    mounted() {
-        //获取排行榜数据
-        this.$axios.$get('/toplist/detail')
-        .then(res=> {
-            console.log(res);
-            this.rankList = res.list
-        })
-    }
+  components: {
+    BottomNav
+  },
+  data() {
+    return {
+      rankList: []
+    };
+  },
+  mounted() {
+    //获取排行榜数据
+    this.$axios.$get("/toplist/detail").then(res => {
+    //   console.log(res);
+      this.rankList = res.list;
+    });
+  }
 };
 </script>
 
@@ -47,7 +60,7 @@ export default {
   }
 }
 .ranks {
-    padding: 15px;
+  padding: 15px;
   > li {
     display: flex;
     > .img {
@@ -64,8 +77,8 @@ export default {
       flex-direction: column;
       justify-content: space-around;
       span {
-          color: #666;
-          font-size: 14px;
+        color: #666;
+        font-size: 14px;
       }
     }
   }

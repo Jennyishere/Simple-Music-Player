@@ -74,7 +74,6 @@
 
 <script>
 import BottomNav from '@/components/bottomNav'
-import {Banner} from '@/apis/music'
 export default {
   // 注册
   components: {
@@ -102,13 +101,13 @@ export default {
     .then(res=> {
       // console.log(res);
       this.playList=res.playlists;
-      console.log(this.playList);
+      // console.log(this.playList);
       
     })
     // 获取独家放送
     this.$axios.$get('/personalized/privatecontent')
     .then(res=> {
-      console.log(res);
+      // console.log(res);
       this.show = res.result
       
     })
