@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="head">
+    <div class="head" @click="$router.back()">
       <van-icon name="arrow-left" />
     </div>
     <div class="welcome">
@@ -18,7 +18,7 @@
         />
       </div>
       <div class="password">
-        <van-field v-model="users.password" left-icon="lock" placeholder="Password" />
+        <van-field v-model="users.password" left-icon="lock" placeholder="Password" type="password"/>
       </div>
     </div>
     <div class="btn" @click="login">
@@ -32,15 +32,23 @@ export default {
   data() {
     return {
       users: {
-        phone:'',
-        password:''
+        phone:'15202041310',
+        password:'z123456'
       }
     }
   },
   methods: {
     login() {
-      console.log(123);
-      
+      // console.log(123);
+      this.$axios(`/login/cellphone?phone=${this.users.phone}&password=${this.users.password}`)
+      .then(res=> {
+        console.log(res);
+        if (res.data.code == 200) {
+          console.log(123);
+          localStorage.setItem('music_token',res.data.token)
+          this.$router.push('/')
+        }
+      })
     }
   }
 };

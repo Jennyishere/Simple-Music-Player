@@ -29,7 +29,7 @@
           <van-icon name="video-o" />
           <span>Live</span>
         </li>
-        <li>
+        <li @click="$router.push('/ranking')">
           <van-icon name="label-o" />
           <span>Ranking</span>
         </li>
