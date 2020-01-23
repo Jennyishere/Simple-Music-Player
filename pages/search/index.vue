@@ -1,11 +1,18 @@
 <template>
   <div class="search">
     <div class="head">
-      <van-field v-model="searchWord" left-icon="search" :placeholder="placeholder" />
-
-      <span @click="$router.push('/')">取消</span>
+      <form class="form">
+      <van-search
+        v-model="searchWord"
+        :placeholder="searchWord"
+        show-action
+        @search="onSearch"
+        @cancel="$router.push('/')"
+      />
       <van-icon name="manager-o" />
+      </form>
     </div>
+  
     <div class="searchHistory">
       <div class="historyhead">
         <h4>搜索历史</h4>
@@ -42,10 +49,9 @@ import BottomNav from "@/components/bottomNav";
 export default {
   data() {
     return {
-      searchWord: "",
-      placeholder: "hahahhah",
+      searchWord: "hahahhah",
       hotSearch: [],
-      historyList:[]
+      historyList: []
     };
   },
   mounted() {
@@ -55,28 +61,49 @@ export default {
       this.hotSearch = res.data;
     });
 
-// 把本地的搜索历史读出来
-    this.historyList= JSON.parse(localStorage.getItem('history')||'[]')
+    // 把本地的搜索历史读出来
+    this.historyList = JSON.parse(localStorage.getItem("history") || "[]");
 
     // 获取默认搜索词
-    this.$axios.$get('/search/default')
-    .then(res=>{
-      console.log(res);
-      this.placeholder = res.data.showKeyword
-    })
+    this.$axios.$get("/search/default").then(res => {
+      // console.log(res);
+      this.searchWord = res.data.showKeyword;
+    });
+  },
+  methods: {
+    onSearch() {
+      console.log(this.placeholder);
+       this.$axios.$get(`/search?keywords=${this.searchWord}`).then(res => {
+        console.log(res);
+      });
+        this.$router.push({path:'/search/searchResult',query:{keyword:this.searchWord}})
+     
+    }
   }
 };
 </script>
 
 <style lang="less" scoped>
+
 .search {
   padding: 10px;
   // background-color: #2e2e2e;
   color: #3e3e3e;
 }
 .head {
-  display: flex;
   line-height: 44px;
+  .form {
+    display: flex;
+    justify-content: space-between;
+    /deep/.van-search{
+      flex: 1;
+      padding: 0 10px;
+    }
+    .van-cell {
+      padding: 5px 10px;
+
+    }
+  }
   /deep/.van-cell {
     border-radius: 50px;
     background-color: #3b3b3b;
@@ -141,10 +168,10 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          color:#909090;
+          color: #909090;
         }
         img {
-          width: 20%;
+          width: 10%;
         }
       }
     }
