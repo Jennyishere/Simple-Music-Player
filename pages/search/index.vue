@@ -26,7 +26,7 @@
     <div class="hotSearch">
       <h4>热搜榜</h4>
       <ul>
-        <li v-for="(item,index) in hotSearch" :key="index">
+        <li v-for="(item,index) in hotSearch" :key="index" @click="handleHotSearch(item.searchWord)">
           <span>{{index+1}}</span>
           <div class="hot">
             <p>
@@ -104,6 +104,10 @@ export default {
           query: { keyword: this.searchWord }
         });
       }
+    },
+    handleHotSearch(value) {
+      this.searchWord = value;
+      this.onSearch()
     }
   }
 };
