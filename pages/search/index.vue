@@ -16,10 +16,10 @@
     <div class="searchHistory">
       <div class="historyhead">
         <h4>搜索历史</h4>
-        <van-icon name="delete" />
+        <van-icon name="delete" @click="clearHistory"/>
       </div>
       <div class="histories">
-        <span v-for="(item,index) in historyList" :key="index">{{item}}</span>
+        <span v-for="(item,index) in historyList" :key="index" @click="handleHistorySearch(item)">{{item}}</span>
       </div>
     </div>
 
@@ -91,7 +91,7 @@ export default {
       if (this.historyList.indexOf(this.searchWord) == -1) {
         this.historyList.push(this.searchWord);
       }
-      console.log(this.historyList);
+      // console.log(this.historyList);
       localStorage.setItem("searchHistory", JSON.stringify(this.historyList));
       if (this.searchWord == "") {
         this.$router.push({
@@ -108,6 +108,17 @@ export default {
     handleHotSearch(value) {
       this.searchWord = value;
       this.onSearch()
+    },
+    handleHistorySearch(item) {
+      this.searchWord = item;
+      this.onSearch()
+    },
+    clearHistory() {
+      localStorage.removeItem('searchHistory')
+      // 刷新
+      this.historyList = JSON.parse(
+      localStorage.getItem("searchHistory") || "[]"
+    );
     }
   }
 };
@@ -168,11 +179,12 @@ export default {
   }
   .histories {
     span {
+      display: inline-block;
       padding: 5px 10px;
       border-radius: 20px;
       background-color: #3b3b3b;
       color: #fff;
-      margin-right: 5px;
+      margin: 5px;
     }
   }
 }

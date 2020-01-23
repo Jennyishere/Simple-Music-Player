@@ -3,7 +3,7 @@
     <van-tabbar v-model="active">
       <van-tabbar-item icon="music" @click="$router.push('/')">Find</van-tabbar-item>
       <van-tabbar-item icon="video">video</van-tabbar-item>
-      <van-tabbar-item icon="star">Mymusic</van-tabbar-item>
+      <van-tabbar-item icon="star" @click="$router.push('/user/personal')">Mymusic</van-tabbar-item>
       <van-tabbar-item icon="friends">Mysocial</van-tabbar-item>
       <van-tabbar-item icon="manager" @click="$router.push('/user/login')">Mine</van-tabbar-item>
     </van-tabbar>

@@ -1,6 +1,8 @@
 <template>
   <div class="personal">
-      个人中心
+      <div class="head">
+        <h2>Nickname</h2>
+      </div>
   </div>
 </template>
 
