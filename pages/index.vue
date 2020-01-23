@@ -3,7 +3,7 @@
     <!-- 头部搜索部分 -->
     <div class="head" @click="$router.push('/search')">
       <div class="headbox">
-        <van-icon name="search" class="searchIcon" />Ed Sherren
+        <van-icon name="search" class="searchIcon" />{{placeholder}}
       </div>
     </div>
     <!-- 轮播图 -->
@@ -84,7 +84,8 @@ export default {
       // 轮播图数据
       images: [],
       playList:[],
-      show:[]
+      show:[],
+      placeholder:''
     };
   },
    mounted() {
@@ -111,6 +112,11 @@ export default {
       this.show = res.result
       
     })
+    // 获取默认搜索词
+    this.$axios.$get("/search/default").then(res => {
+      // console.log(res);
+      this.placeholder = res.data.showKeyword;
+    });
   }
 };
 </script>

@@ -2,24 +2,24 @@
   <div class="search">
     <div class="head">
       <form class="form">
-      <van-search
-        v-model="searchWord"
-        :placeholder="searchWord"
-        show-action
-        @search="onSearch"
-        @cancel="$router.push('/')"
-      />
-      <van-icon name="manager-o" />
+        <van-search
+          v-model="searchWord"
+          :placeholder="placeholder"
+          show-action
+          @search="onSearch"
+          @cancel="$router.push('/')"
+        />
+        <van-icon name="manager-o" />
       </form>
     </div>
-  
+
     <div class="searchHistory">
       <div class="historyhead">
         <h4>搜索历史</h4>
         <van-icon name="delete" />
       </div>
       <div class="histories">
-        <span>我们的歌</span>
+        <span v-for="(item,index) in historyList" :key="index">{{item}}</span>
       </div>
     </div>
 
@@ -49,7 +49,8 @@ import BottomNav from "@/components/bottomNav";
 export default {
   data() {
     return {
-      searchWord: "hahahhah",
+      searchWord: "",
+      placeholder: "直觉",
       hotSearch: [],
       historyList: []
     };
@@ -62,29 +63,53 @@ export default {
     });
 
     // 把本地的搜索历史读出来
-    this.historyList = JSON.parse(localStorage.getItem("history") || "[]");
+    this.historyList = JSON.parse(
+      localStorage.getItem("searchHistory") || "[]"
+    );
 
     // 获取默认搜索词
     this.$axios.$get("/search/default").then(res => {
       // console.log(res);
-      this.searchWord = res.data.showKeyword;
+      this.placeholder = res.data.showKeyword;
     });
   },
   methods: {
     onSearch() {
-      console.log(this.placeholder);
-       this.$axios.$get(`/search?keywords=${this.searchWord}`).then(res => {
+      this.$axios.$get(`/search?keywords=${this.searchWord}`).then(res => {
         console.log(res);
       });
-        this.$router.push({path:'/search/searchResult',query:{keyword:this.searchWord}})
-     
+      // 跳转之前把搜索的关键词存到到本地 除重
+      if (this.searchWord == "") {
+        let keyword = this.placeholder;
+        let key = keyword.split(" ");
+        if (keyword.indexOf("大家都在搜") != -1) {
+          this.searchWord = key[1];
+        } else {
+          this.searchWord = key[0];
+        }
+      }
+      if (this.historyList.indexOf(this.searchWord) == -1) {
+        this.historyList.push(this.searchWord);
+      }
+      console.log(this.historyList);
+      localStorage.setItem("searchHistory", JSON.stringify(this.historyList));
+      if (this.searchWord == "") {
+        this.$router.push({
+          path: "/search/searchResult",
+          query: { keyword: this.placeholder }
+        });
+      } else {
+        this.$router.push({
+          path: "/search/searchResult",
+          query: { keyword: this.searchWord }
+        });
+      }
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-
 .search {
   padding: 10px;
   // background-color: #2e2e2e;
@@ -95,13 +120,12 @@ export default {
   .form {
     display: flex;
     justify-content: space-between;
-    /deep/.van-search{
+    /deep/.van-search {
       flex: 1;
       padding: 0 10px;
     }
     .van-cell {
       padding: 5px 10px;
-
     }
   }
   /deep/.van-cell {
@@ -144,6 +168,7 @@ export default {
       border-radius: 20px;
       background-color: #3b3b3b;
       color: #fff;
+      margin-right: 5px;
     }
   }
 }
