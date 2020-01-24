@@ -2,10 +2,10 @@
   <div class="bottomNav">
     <van-tabbar v-model="active">
       <van-tabbar-item icon="music" @click="$router.push('/')">Find</van-tabbar-item>
-      <van-tabbar-item icon="video">video</van-tabbar-item>
+      <van-tabbar-item icon="label" @click="$router.push('/ranking')">Ranking</van-tabbar-item>
       <van-tabbar-item icon="star" @click="$router.push('/user/personal')">Mymusic</van-tabbar-item>
       <van-tabbar-item icon="friends">Mysocial</van-tabbar-item>
-      <van-tabbar-item icon="manager" @click="$router.push('/user/login')">Mine</van-tabbar-item>
+      <van-tabbar-item icon="manager" >Mine</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
   left: 0;
   width: 100%;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: #18191d;
   .van-tabbar {
       padding: 5px 0;
   }

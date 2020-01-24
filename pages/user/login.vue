@@ -44,9 +44,10 @@ export default {
       .then(res=> {
         console.log(res);
         if (res.data.code == 200) {
-          console.log(123);
+          // console.log(123);
           localStorage.setItem('music_token',res.data.token)
-          this.$router.push('/')
+          localStorage.setItem('users',JSON.stringify(res.data))
+          this.$router.back()
         }
       })
     }
