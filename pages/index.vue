@@ -163,6 +163,9 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      span {
+        font-size: 12px;
+      }
     }
     .van-icon {
       display: block;

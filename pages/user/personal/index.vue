@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="right">
-        <img src="../../assets/leo.jpg" alt />
+        <img src="@/assets/leo.jpg" alt />
       </div>
     </div>
     <div class="collection">
@@ -70,7 +70,7 @@
       <van-cell title="My Order" icon="bill">
         <van-icon slot="right-icon" name="arrow" style="line-height: inherit;" />
       </van-cell>
-      <van-cell title="Apply Musician" icon="star">
+      <van-cell title="My Star" icon="star" @click="$router.push('/user/personal/mystar')">
         <van-icon slot="right-icon" name="arrow" style="line-height: inherit;" />
       </van-cell>
       <van-cell title="Settings" icon="setting">
@@ -106,6 +106,12 @@ export default {
     } else {
       this.isLogin = false;
     }
+
+    this.$axios.$get('/user/subcount')
+    .then(res=> {
+      console.log(res);
+      
+    })
   }
 };
 </script>

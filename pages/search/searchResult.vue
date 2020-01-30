@@ -5,7 +5,7 @@
       <van-search v-model="value" :placeholder="value" shape="round" @search="onSearch"></van-search>
     </div>
         <ul class="list">
-            <li v-for="(item, index) in searchSongs" :key="index">
+            <li v-for="(item, index) in searchSongs" :key="index" @click="$router.push({path:'/player',query:{id:item.id}})">
                 <div class="left">
                     <p>{{item.name}}</p>
                     <span>{{item.artists[0].name}}</span>
